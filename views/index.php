@@ -1,34 +1,46 @@
 <h1>PHP Test Application</h1>
+<div class="table-responsive" aria-label="Existing users">
+    <table class="table table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th class="ps-3" scope="col">Name</th>
+            <th class="ps-3" scope="col">E-mail</th>
+            <th class="ps-3" scope="col">City</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?foreach($users as $user){?>
+            <tr aria-label="A user record">
+                <td class="ps-3 overflow-auto" aria-label="Name"><?=$user->getName()?></td>
+                <td class="ps-3 overflow-auto" aria-label="E-mail"><?=$user->getEmail()?></td>
+                <td class="ps-3 overflow-auto" aria-label="City"><?=$user->getCity()?></td>
+            </tr>
+        <?}?>
+        </tbody>
+    </table>
+</div>
 
-<table>
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>E-mail</th>
-			<th>City</th>
-		</tr>
-	</thead>
-	<tbody>
-		<?foreach($users as $user){?>
-		<tr>
-			<td><?=$user->getName()?></td>
-			<td><?=$user->getEmail()?></td>
-			<td><?=$user->getCity()?></td>
-		</tr>
-		<?}?>
-	</tbody>
-</table>				
-
-<form method="post" action="create.php">
-	
-	<label for="name">Name:</label>
-	<input name="name" input="text" id="name"/>
-	
-	<label for="email">E-mail:</label>
-	<input name="email" input="text" id="email"/>
-	
-	<label for="city">City:</label>
-	<input name="city" input="text" id="city"/>
-	
-	<button>Create new row</button>
+<form id="add-user" method="post" action="create.php" aria-label="Add a new user">
+    <div class="input-group mb-3 mt-4">
+        <div class="col-md me-3">
+            <div class="input-group mb-3" aria-label="Name field">
+                <label for="name" class="input-group-text fixed-form-label">Name</label>
+                <input name="name" class="form-control" type="text" id="name"/>
+            </div>
+        </div>
+        <div class="col-md me-3">
+            <div class="input-group mb-3" aria-label="E-mail field">
+                <label for="email" class="input-group-text fixed-form-label">E-mail</label>
+                <input name="email" class="form-control" type="email" id="email"/>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="input-group mb-3" aria-label="City field">
+                <label for="city" class="input-group-text fixed-form-label">City</label>
+                <input name="city" class="form-control" type="text" id="city"/>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary float-end" type="submit">Create new row</button>
 </form>
+

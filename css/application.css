@@ -1,0 +1,25 @@
+table {
+    table-layout: fixed;
+}
+
+h1 {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.fixed-form-label {
+    /* Line up labels when stacked on small screens */
+    width: 80px;
+    /* Line up label contents with contents of table columns */
+    padding-left: 0.5rem;
+}
+
+/*.input-group {*/
+/*    padding-right: 0;*/
+/*    margin-right: 0;*/
+/*}*/
+
+
+#main {
+    padding: 2rem
+}
