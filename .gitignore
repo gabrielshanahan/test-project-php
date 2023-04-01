@@ -2,3 +2,4 @@
 .project
 .idea
 .env
+node_modules

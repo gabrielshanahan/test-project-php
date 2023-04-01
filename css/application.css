@@ -14,11 +14,9 @@ h1 {
     padding-left: 0.5rem;
 }
 
-/*.input-group {*/
-/*    padding-right: 0;*/
-/*    margin-right: 0;*/
-/*}*/
-
+form .lowercase {
+    text-transform: lowercase;
+}
 
 #main {
     padding: 2rem
