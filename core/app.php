@@ -12,6 +12,7 @@ foreach (glob(dirname(__FILE__).'/../models/*.php') as $filename) {
 session_start();
 set_exception_handler(['App', 'exceptionHandler']);
 $_POST = json_decode(file_get_contents("php://input"), true);
+header("X-Frame-Options: DENY");
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
