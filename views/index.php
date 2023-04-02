@@ -45,7 +45,7 @@
         <div class="col-md me-3">
             <div class="input-group mb-3" aria-label="Name field">
                 <label for="name" class="input-group-text fixed-form-label">Name</label>
-                <input name="name" class="form-control" type="text" id="name" aria-describedby="name-error" required minlength="1" maxlength="65535"/>
+                <input name="name" class="form-control" type="text" id="name" aria-describedby="name-error" required minlength="1" maxlength="65535" pattern="^(?![0-9]).*"/>
                 <span id="name-error" class="invalid-feedback" aria-live="polite"></span>
             </div>
         </div>

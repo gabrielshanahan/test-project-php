@@ -3,6 +3,8 @@
 class UserFormValidator
 {
 
+    private const NAME_PATTERN = "/^(?![0-9]).*/";
+
     /**
      * Kudos 2 https://stackoverflow.com/a/201378
      */
@@ -29,7 +31,12 @@ class UserFormValidator
 
     private static function validateName(string $name): array
     {
-        return self::standardValidations("a name", $name);
+        return array_merge(
+            preg_match(self::NAME_PATTERN, $name)
+                ? []
+                : ["name cannot start with a number"],
+            self::standardValidations("a name", $name)
+        );
     }
 
     private static function validateEmail(string $email): array

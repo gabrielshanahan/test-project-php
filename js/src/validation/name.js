@@ -7,6 +7,7 @@ const nameValidator = new Validator(nameInput);
 
 nameValidator.builtInErrorsToMessages = {
     valueMissing: "you need to enter a name",
+    patternMismatch: "a name cannot begin with a number",
     tooLong: (name) => `name must be less than ${name.maxLength} characters; you entered ${name.value.length}`,
 };
 
