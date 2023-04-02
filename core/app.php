@@ -13,6 +13,7 @@ session_start();
 set_exception_handler(['App', 'exceptionHandler']);
 $_POST = json_decode(file_get_contents("php://input"), true);
 header("X-Frame-Options: DENY");
+header('X-Content-Type-Options: nosniff');
 $_SESSION['nonce'] = base64_encode(random_bytes(16));
 header(
     "Content-Security-Policy: default-src 'none'; " .
