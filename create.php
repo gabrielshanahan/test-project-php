@@ -22,11 +22,18 @@ if (!CSRFValidator::validateCSFR()) {
 // Create new instance of user
 $user = new User($app->db);
 
+function sanitizeInput($input): string {
+    $input = strip_tags($input);
+    $input = filter_var($input, FILTER_SANITIZE_STRING);
+    $input = htmlspecialchars($input, ENT_QUOTES | ENT_HTML5);
+    return trim($input);
+}
+
 $formData = [
-    'name' => $_POST['name'],
-    'email' => $_POST['email'],
-    'city' => $_POST['city'],
-    'phone' => $_POST['phone'],
+    'name' => sanitizeInput($_POST['name']),
+    'email' => sanitizeInput($_POST['email']),
+    'city' => sanitizeInput($_POST['city']),
+    'phone' => sanitizeInput($_POST['phone']),
 ];
 
 $errorMessages = UserFormValidator::validate($formData);
