@@ -12,12 +12,18 @@ class UserFormValidator
     "(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a" .
     "\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/";
 
+    /**
+     * Kudos 2 https://uibakery.io/regex-library/phone-number
+     */
+    private const PHONE_PATTERN = "/^\+?[1-9][0-9]{7,14}$/";
+
     static function validate($data): array
     {
         return array_filter([
             "name" => self::validateName($data["name"]),
             "email" => self::validateEmail($data["email"]),
             "city" => self::validateCity($data["city"]),
+            "phone" => self::validatePhone($data["phone"]),
         ]);
     }
 
@@ -39,6 +45,16 @@ class UserFormValidator
     private static function validateCity(string $city): array
     {
         return self::standardValidations("a city", $city);
+    }
+
+    private static function validatePhone(string $phone): array
+    {
+        return array_merge(
+            preg_match(self::PHONE_PATTERN, $phone)
+                ? []
+                : ["entered value is not a valid phone number"],
+            self::standardValidations("a phone number", $phone)
+        );
     }
 
     private static function standardValidations($subject, $str): array {

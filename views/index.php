@@ -6,6 +6,7 @@
             <th class="ps-3" scope="col">Name</th>
             <th class="ps-3" scope="col">E-mail</th>
             <th class="ps-3" scope="col">City</th>
+            <th class="ps-3" scope="col">Phone</th>
         </tr>
         </thead>
         <tbody>
@@ -14,6 +15,7 @@
                 <td class="ps-3 overflow-auto" aria-label="Name"><?=$user->getName()?></td>
                 <td class="ps-3 overflow-auto" aria-label="E-mail"><?=$user->getEmail()?></td>
                 <td class="ps-3 overflow-auto" aria-label="City"><?=$user->getCity()?></td>
+                <td class="ps-3 overflow-auto" aria-label="Phone"><?=$user->getPhone()?></td>
             </tr>
         <?}?>
         </tbody>
@@ -55,11 +57,20 @@
                 <span id="email-error" class="invalid-feedback" aria-live="polite"></span>
             </div>
         </div>
-        <div class="col-md">
+
+        <div class="col-md me-3">
             <div class="input-group mb-3" aria-label="City field">
                 <label for="city" class="input-group-text fixed-form-label">City</label>
                 <input name="city" class="form-control" type="text" id="city" aria-describedby="city-error" required maxlength="65535"/>
                 <span id="city-error" class="invalid-feedback" aria-live="polite"></span>
+            </div>
+        </div>
+
+        <div class="col-md">
+            <div class="input-group mb-3" aria-label="Phone field">
+                <label for="phone" class="input-group-text fixed-form-label">Phone</label>
+                <input name="phone" class="form-control" type="text" id="phone" aria-describedby="phone-error" required minlength="7" maxlength="14" pattern="\+?[1-9][0-9]{7,14}"/>
+                <span id="phone-error" class="invalid-feedback" aria-live="polite"></span>
             </div>
         </div>
     </div>

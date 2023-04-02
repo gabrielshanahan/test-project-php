@@ -9,11 +9,12 @@ const unknownErrorDescription = document.getElementById("unknown-error-descripti
 const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const cityInput = document.getElementById("city");
+const phoneInput = document.getElementById("phone");
 
 const userTable = document.getElementById("user-table");
 const cityFilter = document.getElementById("city-filter");
 
 export {
     form, unknownErrors, unknownErrorDescription, submitFormButton,
-    nameInput, emailInput, cityInput, userTable, cityFilter
+    nameInput, emailInput, cityInput, phoneInput, userTable, cityFilter
 };

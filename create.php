@@ -10,7 +10,8 @@ $user = new User($app->db);
 $formData = [
     'name' => $_POST['name'],
     'email' => $_POST['email'],
-    'city' => $_POST['city']
+    'city' => $_POST['city'],
+    'phone' => $_POST['phone'],
 ];
 
 $errorMessages = UserFormValidator::validate($formData);

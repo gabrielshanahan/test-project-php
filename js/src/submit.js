@@ -1,10 +1,19 @@
 "use strict";
 
 import "../../node_modules/jquery/dist/jquery.min.js";
-import {cityInput, emailInput, form, nameInput, unknownErrorDescription, unknownErrors} from "./dom/elements.js";
+import {
+    cityInput,
+    emailInput,
+    form,
+    nameInput,
+    phoneInput,
+    unknownErrorDescription,
+    unknownErrors
+} from "./dom/elements.js";
 import nameValidator from "./validation/name.js";
 import emailValidator from "./validation/email.js";
 import cityValidator from "./validation/city.js";
+import phoneValidator from "./validation/phone.js";
 
 const jqueryForm = $(form);
 
@@ -16,7 +25,8 @@ jqueryForm.submit(async (event) => {
     const data = {
         name: nameInput.value,
         email: emailInput.value,
-        city: cityInput.value
+        city: cityInput.value,
+        phone: phoneInput.value,
     };
 
     const response = await fetch(
@@ -41,6 +51,10 @@ jqueryForm.submit(async (event) => {
 
             if("city" in json) {
                 cityValidator.renderErrors(json.city);
+            }
+
+            if("phone" in json) {
+                phoneValidator.renderErrors(json.phone);
             }
         } else if(response.status === 500) {
             unknownErrorDescription.textContent = await response.text();
