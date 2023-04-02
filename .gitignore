@@ -3,3 +3,7 @@
 .idea
 .env
 node_modules
+.php-cs-fixer.cache
+/bin/
+/tools/
+/vendor/

@@ -2,10 +2,14 @@ module.exports = {
     "env": {
         "browser": true,
         "es2021": true,
-        "jest/globals": true
+        "jest/globals": true,
+        "jquery": true
     },
-    "plugins": ["jest"],
-    "extends": "eslint:recommended",
+    "plugins": ["jest", "jquery"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:jquery/deprecated"
+    ],
     "overrides": [
     ],
     "parserOptions": {

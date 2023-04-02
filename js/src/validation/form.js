@@ -8,7 +8,7 @@ import {submitFormButton} from "../dom/elements.js";
 submitFormButton.addEventListener("click", (event) => {
     const validators = [emailValidator, nameValidator, cityValidator];
     const isValid = validators.reduce(
-        (isValid, validator) => validator.validateAndMutateDOM() && isValid,
+        (isValid, validator) => validator.validateAndRender() && isValid,
         true,
     );
     if (!isValid) {

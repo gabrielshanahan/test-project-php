@@ -18,6 +18,10 @@ form .lowercase {
     text-transform: lowercase;
 }
 
+.hidden {
+    display: none;
+}
+
 #main {
     padding: 2rem
 }

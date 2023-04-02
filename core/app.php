@@ -50,7 +50,17 @@ class App {
 		// Render $content in layout
 		include './views/layout.php';
 	}
-	
+
+    public static function exceptionHandler($exception) {
+        http_response_code(500);
+        echo "Uncaught exception of type '" . get_class($exception) . "'";
+    }
 }
+
+/*
+ * Basic wiring
+ */
+set_exception_handler(['App', 'exceptionHandler']);
+$_POST = json_decode(file_get_contents("php://input"), true);
 
 return new App();

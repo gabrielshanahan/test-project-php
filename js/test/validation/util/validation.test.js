@@ -25,16 +25,16 @@ describe("Validator", () => {
     });
 
     test("produces correct message on validation error", () => {
-        expect(testValidator.buildErrorMessage()).toBe("ValueMissing");
+        expect(testValidator.buildErrorMessages()).toMatchObject(["valueMissing"]);
     });
 
     test("sets correct class on validation error", () => {
-        testValidator.validateAndMutateDOM();
+        testValidator.validateAndRender();
         expect(elemInput.classList).toContain("is-invalid");
     });
 
     test("produces correct message on multiple validation errors", () => {
         testValidator.customValidations = () => "abc";
-        expect(testValidator.buildErrorMessage()).toBe("ValueMissing, abc");
+        expect(testValidator.buildErrorMessages()).toMatchObject(["valueMissing", "abc"]);
     });
 });

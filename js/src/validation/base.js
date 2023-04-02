@@ -1,5 +1,7 @@
 "use strict";
 
+const inputErrorClass = "is-invalid";
+
 /**
  * A simple class which encapsulates functionality relating to validation. It makes two things easier:
  * - defining custom messages for built-in validation errors via the Constraint Validation API
@@ -40,25 +42,32 @@ export default class Validator {
             );
         }
 
-        this.#inputElem.addEventListener("focusout", this.validateAndMutateDOM.bind(this));
+        this.#inputElem.addEventListener("focusout", this.validateAndRender.bind(this));
     }
 
-    validateAndMutateDOM() {
-        const inputErrorClass = "is-invalid";
-        const errorMessage = this.buildErrorMessage();
+    validateAndRender() {
+        const errorMessages = this.buildErrorMessages();
 
-        if (errorMessage !== "") {
-            this.#inputErrorFeedbackElem.textContent = errorMessage;
-            this.#inputElem.classList.add(inputErrorClass);
+        if (errorMessages.length > 0) {
+            this.renderErrors(errorMessages);
             return false;
         } else {
-            this.#inputErrorFeedbackElem.textContent = "";
-            this.#inputElem.classList.remove(inputErrorClass);
+            this.resetErrors();
             return true;
         }
     }
 
-    buildErrorMessage() {
+    renderErrors(errorMessages) {
+        this.#inputErrorFeedbackElem.textContent = Validator.#capitalize(errorMessages.join(", "));
+        this.#inputElem.classList.add(inputErrorClass);
+    }
+
+    resetErrors() {
+        this.#inputErrorFeedbackElem.textContent = "";
+        this.#inputElem.classList.remove(inputErrorClass);
+    }
+
+    buildErrorMessages() {
         const customMessage = this.customValidations(this.#inputElem);
         const builtInMessages = Object.entries(this.builtInErrorsToMessages)
             .filter(([error]) => this.#inputElem.validity[error])
@@ -66,9 +75,7 @@ export default class Validator {
                 typeof errorText === "function" ?
                     errorText(this.#inputElem) :
                     errorText);
-        const errorMessage = builtInMessages.concat(customMessage).join(", ");
-
-        return Validator.#capitalize(errorMessage);
+        return builtInMessages.concat(customMessage);
     }
 
     static #capitalize(it) {

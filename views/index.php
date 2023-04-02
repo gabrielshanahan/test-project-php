@@ -20,6 +20,15 @@
     </table>
 </div>
 
+<div id="unknown-errors" class="hidden" aria-label="Unknown errors">
+    <div class="alert alert-danger show" role="alert">
+        <h4 class="alert-heading">An unknown error occurred!</h4>
+        A technical description of the error can be found bellow.
+        <hr>
+        <p id="unknown-error-description" class="mb-0" aria-label="Technical description of error"></p>
+    </div>
+</div>
+
 <form id="add-user" method="post" action="create.php" aria-label="Add a new user" novalidate>
     <div class="input-group mb-3 mt-4" aria-label="Input user data here">
         <div class="col-md me-3">
