@@ -10,4 +10,10 @@ const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const cityInput = document.getElementById("city");
 
-export {form, unknownErrors, unknownErrorDescription, submitFormButton, nameInput, emailInput, cityInput};
+const userTable = document.getElementById("user-table");
+const cityFilter = document.getElementById("city-filter");
+
+export {
+    form, unknownErrors, unknownErrorDescription, submitFormButton,
+    nameInput, emailInput, cityInput, userTable, cityFilter
+};

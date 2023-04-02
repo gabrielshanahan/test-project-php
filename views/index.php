@@ -1,6 +1,6 @@
 <h1>PHP Test Application</h1>
 <div class="table-responsive" aria-label="Existing users">
-    <table class="table table-striped">
+    <table id="user-table" class="table table-striped">
         <thead class="table-dark">
         <tr aria-label="Table header">
             <th class="ps-3" scope="col">Name</th>
@@ -18,6 +18,15 @@
         <?}?>
         </tbody>
     </table>
+</div>
+
+<div class="row mt-3 mb-5 justify-content-end">
+    <label for="city-filter" class="col-sm-2 col-form-label">Filter by city:</label>
+    <div class="col-sm-2">
+        <select id="city-filter" class="form-select" aria-label="Filter by city">
+            <option value="" selected>No filter</option>
+        </select>
+    </div>
 </div>
 
 <div id="unknown-errors" class="hidden" aria-label="Unknown errors">

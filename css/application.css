@@ -15,6 +15,7 @@ h1 {
 }
 
 form .lowercase {
+    /* Used for the e-mail field. E-mails aren't case sensitive, and our pattern only supports lowercase e-mails */
     text-transform: lowercase;
 }
 
@@ -23,5 +24,9 @@ form .lowercase {
 }
 
 #main {
-    padding: 2rem
+    padding: 2rem;
+}
+
+#city-filter {
+    display: inline-block;
 }
