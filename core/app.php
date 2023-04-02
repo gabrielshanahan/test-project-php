@@ -7,12 +7,24 @@ foreach (glob(dirname(__FILE__).'/../models/*.php') as $filename) {
 }
 
 /*
- * Basic wiring
+ * Basic wiring & Security
  */
 session_start();
 set_exception_handler(['App', 'exceptionHandler']);
 $_POST = json_decode(file_get_contents("php://input"), true);
 header("X-Frame-Options: DENY");
+$_SESSION['nonce'] = base64_encode(random_bytes(16));
+header(
+    "Content-Security-Policy: default-src 'none'; " .
+    "connect-src 'self'; " .
+    "script-src 'self' https://cdn.jsdelivr.net https://www.google.com 'strict-dynamic' 'nonce-" . $_SESSION['nonce'] . "'; " .
+    "frame-src https://www.google.com; " .
+    "img-src 'self' data:; " .
+    "style-src 'self' https://cdn.jsdelivr.net; " .
+    "font-src 'self'; " .
+    "object-src 'none'; " .
+    "base-uri 'none'"
+);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
