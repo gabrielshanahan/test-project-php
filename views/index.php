@@ -74,6 +74,7 @@
             </div>
         </div>
     </div>
+    <input type="hidden" name="csrf-token" id="csrf-token" aria-hidden="true" value="<?=$_SESSION['csrf_token']?>">
     <button class="btn btn-primary float-end" type="submit">Create new row</button>
 </form>
 

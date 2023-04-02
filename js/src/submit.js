@@ -2,11 +2,12 @@
 
 import "../../node_modules/jquery/dist/jquery.min.js";
 import {
-    cityInput,
-    emailInput,
-    form,
     nameInput,
+    emailInput,
+    cityInput,
     phoneInput,
+    csrfTokenInput,
+    form,
     unknownErrorDescription,
     unknownErrors
 } from "./dom/elements.js";
@@ -29,11 +30,13 @@ jqueryForm.submit(async (event) => {
             email: emailInput.value,
             city: cityInput.value,
             phone: phoneInput.value,
+            csrf_token: csrfTokenInput.value,
             // eslint-disable-next-line no-undef
             captchaToken: await grecaptcha.execute(
                 "6Lcf01ElAAAAAAD2SziA020840uSyVwgxzZyiss8", {
                     action: "submit"
                 }),
+
         };
 
         const response = await fetch(
@@ -64,8 +67,8 @@ jqueryForm.submit(async (event) => {
                     phoneValidator.renderErrors(json.phone);
                 }
 
-                if("recaptcha" in json) {
-                    unknownErrorDescription.textContent = json.recaptcha;
+                if("other" in json) {
+                    unknownErrorDescription.textContent = json.other;
                     unknownErrors.classList.remove("hidden");
                 }
             } else if(response.status === 500) {
