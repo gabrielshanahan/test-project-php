@@ -6,6 +6,6 @@ Options All -Indexes
 IndexIgnore *
 
 Order Allow,Deny
-<FilesMatch "^(|((index|create)\.php)|(.*\.(js|css))|favicon\.ico)$">
+<FilesMatch "^(|((index|create)\.php)|(.*\.(js|css))|favicon\.ico|robots\.txt)$">
 Allow from all
 </FilesMatch>
