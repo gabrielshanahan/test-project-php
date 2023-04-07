@@ -1,10 +1,16 @@
-table {
-    table-layout: fixed;
+
+/* Equivalent to Bootstrap -sm suffix */
+@media screen and (min-width: 576px) {
+    table {
+        table-layout: fixed;
+    }
 }
 
-h1 {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+/* Prevent different size of last form field (which is missing .pe-3) on screens < 992px (equivalent to Bootstrap -lg suffix) */
+@media screen and (max-width: 992px) {
+    div.rightmost-responsive {
+        padding-right: 1rem!important;
+    }
 }
 
 .fixed-form-label {
@@ -14,19 +20,21 @@ h1 {
     padding-left: 0.5rem;
 }
 
-form .lowercase {
-    /* Used for the e-mail field. E-mails aren't case sensitive, and our pattern only supports lowercase e-mails */
-    text-transform: lowercase;
+
+.main {
+    padding: 2rem;
+}
+
+h1 {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
 }
 
 .hidden {
     display: none;
 }
 
-#main {
-    padding: 2rem;
-}
-
-#city-filter {
-    display: inline-block;
+form.lowercase {
+    /* Used for the e-mail field. E-mails aren't case sensitive, and our pattern only supports lowercase e-mails */
+    text-transform: lowercase;
 }

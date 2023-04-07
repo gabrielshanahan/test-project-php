@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>PHP Test Application</title>
 
@@ -18,7 +19,7 @@
 
 </head>
 <body>
-<div id="main" class="container bg-light clearfix">
+<div id="main" class="main container-lg bg-light" aria-label="Website Content">
     <?= $content ?>
 </div>
 
