@@ -17,6 +17,9 @@ class App
     public $config;
 
     public const DB_TEXT_FIELD_LEN = 65535;
+
+    private const SESSION_LIFETIME_SECONDS = 3600;
+    private const SESSION_COOKIE_DOMAIN = 'localhost';
     private const MAX_CSRF_TOKENS_COUNT = 100;
 
     public function __construct()
@@ -30,21 +33,59 @@ class App
         // Load database instance and tell it to connect with given config
         $this->db = require $this->directory.'/database.php';
         $this->db->connect($this->config->database);
+
         $this->init();
+        $this->session();
+        $this->headers();
     }
 
     private function init() {
-        // Basic wiring
         set_exception_handler(['App', 'exceptionHandler']);
         $_POST = json_decode(file_get_contents("php://input"), true);
+    }
 
-        // Session
+    private function session() {
+        session_set_cookie_params([
+            'lifetime' => self::SESSION_LIFETIME_SECONDS,
+            'path' => '/',
+            'domain' => self::SESSION_COOKIE_DOMAIN,
+            'secure' => true,
+            'httponly' => true,
+            'samesite' => 'Strict'
+        ]);
+
         session_start();
+        if (key_exists(session_name(), $_COOKIE)) {
+            if(empty($_SESSION)) { // Expired session
+                setcookie(session_name(), '', time()-1, '/');
+                http_response_code(400);
+                $errorMsg = 'This window has stayed inactive for too long! Please refresh it and try again.';
+                if (isset($_SERVER['HTTP_ACCEPT']) && str_contains($_SERVER['HTTP_ACCEPT'], 'application/json')) {
+                    echo json_encode([
+                        'other' => $errorMsg .
+                            " Be aware that, by refreshing, you will lose the data you just tried to create, and will" .
+                            " have to enter it anew. " .
+                            "Data that was already saved (i.e. is visible in the table bellow) will not be affected."
+                    ]);
+                } else {
+                    echo $errorMsg;
+                }
+                exit;
+            }
+        }
+
+        session_regenerate_id();
         $_SESSION['nonce'] = base64_encode(random_bytes(16));
         $_SESSION['csrf_tokens'][] = bin2hex(random_bytes(32));
-        $_SESSION['csrf_tokens'] = array_slice($_SESSION['csrf_tokens'], self::MAX_CSRF_TOKENS_COUNT);
+        if($_SESSION['csrf_tokens'] > self::MAX_CSRF_TOKENS_COUNT) {
+            $_SESSION['csrf_tokens'] = array_slice(
+                $_SESSION['csrf_tokens'],
+                count($_SESSION['csrf_tokens']) - self::MAX_CSRF_TOKENS_COUNT
+            );
+        }
+    }
 
-        // Headers
+    private function headers() {
         header("X-Frame-Options: DENY");
         header('X-Content-Type-Options: nosniff');
         header(
@@ -61,6 +102,7 @@ class App
         );
         header_remove("X-Powered-By");
     }
+
 
     /**
      * Renders given view with given set of variables

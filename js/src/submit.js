@@ -41,14 +41,17 @@ jqueryForm.submit(async (event) => {
 
         const response = await fetch(
             "create.php", {
+                headers: {
+                    'Accept': 'application/json'
+                },
                 method: "post",
-                body: JSON.stringify(data)
+                body: JSON.stringify(data),
             }
         );
 
         try {
-            if(response.status === 200) {
-                window.location.reload();
+            if(response.status === 201) {
+                window.location.href = "/"
             } else if(response.status === 400) {
                 const json = await response.json();
                 if("name" in json) {

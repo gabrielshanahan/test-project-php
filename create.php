@@ -15,16 +15,22 @@ if (!CaptchaValidator::validateCaptcha()) {
 
 if (!CSRFValidator::validateCSFR()) {
     http_response_code(400);
-    echo json_encode(['other' => 'CSRF validation failed!']);
+    echo json_encode([
+        'other' => "CSRF validation failed! Try refreshing the page. " .
+            "Be aware that, by refreshing, you will lose the data you just tried to create, and will" .
+            " have to enter it anew." .
+            " Data that was already saved (i.e. is visible in the table bellow) will not be affected."
+    ]);
     exit;
 }
+
 
 // Create new instance of user
 $user = new User($app->db);
 
 function sanitizeInput($input): string {
     $input = strip_tags($input);
-    $input = filter_var($input, FILTER_SANITIZE_STRING);
+    $input = filter_var($input);
     $input = htmlspecialchars($input, ENT_QUOTES | ENT_HTML5);
     return trim($input);
 }
@@ -46,4 +52,4 @@ if (count($errorMessages) !== 0) {
 
 // Insert it to database with POST data
 $user->insert($formData);
-http_response_code(200);
+http_response_code(201);
