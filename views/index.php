@@ -15,14 +15,14 @@
             <div class="col-lg pb-3 pe-3">
                 <div class="input-group has-validation" aria-label="Name field">
                     <label for="name" class="input-group-text fixed-form-label">Name</label>
-                    <input name="name" class="form-control" type="text" id="name" aria-describedby="name-error" required minlength="1" maxlength="65535" pattern="^(?![0-9]).*"/>
+                    <input name="name" class="form-control" type="text" id="name" aria-describedby="name-error" required minlength="1" maxlength="<?=App::DB_TEXT_FIELD_LEN?>" pattern="^(?![0-9]).*"/>
                     <span id="name-error" class="invalid-feedback" aria-live="polite"></span>
                 </div>
             </div>
             <div class="col-lg pb-3 pe-3">
                 <div class="input-group has-validation" aria-label="E-mail field">
                     <label for="email" class="input-group-text fixed-form-label">E-mail</label>
-                    <input name="email" class="form-control" type="email" id="email" aria-describedby="email-error" required maxlength="65535"/>
+                    <input name="email" class="form-control" type="email" id="email" aria-describedby="email-error" required maxlength="<?=App::DB_TEXT_FIELD_LEN?>"/>
                     <span id="email-error" class="invalid-feedback" aria-live="polite"></span>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                 <div class="input-group has-validation" aria-label="City field">
                     <label for="city" class="input-group-text fixed-form-label">City</label>
                     <!-- Kudos 2 https://stackoverflow.com/a/25677072 -->
-                    <input name="city" class="form-control" type="text" id="city" aria-describedby="city-error" required maxlength="65535" pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"/>
+                    <input name="city" class="form-control" type="text" id="city" aria-describedby="city-error" required maxlength="<?=App::DB_TEXT_FIELD_LEN?>" pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"/>
                     <span id="city-error" class="invalid-feedback" aria-live="polite"></span>
                 </div>
             </div>

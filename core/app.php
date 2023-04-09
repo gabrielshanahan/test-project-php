@@ -16,6 +16,7 @@ class App
     public $db;
     public $config;
 
+    public const DB_TEXT_FIELD_LEN = 65535;
     private const MAX_CSRF_TOKENS_COUNT = 100;
 
     public function __construct()
