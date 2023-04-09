@@ -6,6 +6,11 @@ class UserFormValidator
     private const NAME_PATTERN = "/^(?![0-9]).*/";
 
     /**
+     * Kudos 2 https://stackoverflow.com/a/25677072
+     */
+    private const CITY_PATTERN = "/([a-zA-Z\x{0080}-\x{024F}]+(?:. |-| |'))*[a-zA-Z\x{0080}-\x{024F}]*$/u";
+
+    /**
      * Kudos 2 https://stackoverflow.com/a/201378
      */
     private const EMAIL_PATTERN = "/(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*|\"(?:[\x01-" .
@@ -51,7 +56,12 @@ class UserFormValidator
 
     private static function validateCity(string $city): array
     {
-        return self::standardValidations("a city", $city);
+        return array_merge(
+            preg_match(self::CITY_PATTERN, $city)
+                ? []
+                : ["entered value is not a valid city. Be sure to enter the latinized version of the name"],
+            self::standardValidations("a city", $city)
+        );
     }
 
     private static function validatePhone(string $phone): array

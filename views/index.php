@@ -22,7 +22,7 @@
             <div class="col-lg pb-3 pe-3">
                 <div class="input-group has-validation" aria-label="E-mail field">
                     <label for="email" class="input-group-text fixed-form-label">E-mail</label>
-                    <!-- Kudos 2 https://stackoverflow.com/a/201378-->
+                    <!-- Kudos 2 https://stackoverflow.com/a/201378 -->
                     <input name="email" class="form-control lowercase" type="email" id="email" aria-describedby="email-error" required maxlength="65535" pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\x22(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\x22)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"/>
                     <span id="email-error" class="invalid-feedback" aria-live="polite"></span>
                 </div>
@@ -31,7 +31,8 @@
             <div class="col-lg pb-3 pe-3">
                 <div class="input-group has-validation" aria-label="City field">
                     <label for="city" class="input-group-text fixed-form-label">City</label>
-                    <input name="city" class="form-control" type="text" id="city" aria-describedby="city-error" required maxlength="65535"/>
+                    <!-- Kudos 2 https://stackoverflow.com/a/25677072 -->
+                    <input name="city" class="form-control" type="text" id="city" aria-describedby="city-error" required maxlength="65535" pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"/>
                     <span id="city-error" class="invalid-feedback" aria-live="polite"></span>
                 </div>
             </div>
@@ -39,6 +40,7 @@
             <div class="col-lg pb-3 rightmost-responsive">
                 <div class="input-group has-validation" aria-label="Phone field">
                     <label for="phone" class="input-group-text fixed-form-label">Phone</label>
+                    <!-- Kudos 2 https://uibakery.io/regex-library/phone-number -->
                     <input name="phone" class="form-control" type="text" id="phone" aria-describedby="phone-error" required minlength="7" maxlength="14" pattern="\+?[1-9][0-9]{7,14}"/>
                     <span id="phone-error" class="invalid-feedback" aria-live="polite"></span>
                 </div>
