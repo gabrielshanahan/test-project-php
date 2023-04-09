@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <input type="hidden" name="csrf-token" id="csrf-token" aria-hidden="true" value="<?=$_SESSION['csrf_token']?>">
+        <input type="hidden" name="csrf-token" id="csrf-token" aria-hidden="true" value="<?=$_SESSION['csrf_tokens'][count($_SESSION['csrf_tokens']) - 1]?>">
         <button class="btn btn-primary float-lg-end" type="submit">Create new row</button>
     </form>
 </div>

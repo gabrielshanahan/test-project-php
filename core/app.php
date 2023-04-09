@@ -16,6 +16,8 @@ class App
     public $db;
     public $config;
 
+    private const MAX_CSRF_TOKENS_COUNT = 100;
+
     public function __construct()
     {
         // Save current directory path
@@ -39,6 +41,7 @@ class App
         session_start();
         $_SESSION['nonce'] = base64_encode(random_bytes(16));
         $_SESSION['csrf_tokens'][] = bin2hex(random_bytes(32));
+        $_SESSION['csrf_tokens'] = array_slice($_SESSION['csrf_tokens'], self::MAX_CSRF_TOKENS_COUNT);
 
         // Headers
         header("X-Frame-Options: DENY");
