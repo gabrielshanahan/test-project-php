@@ -12,6 +12,12 @@ class UserFormValidator
 
     /**
      * Kudos 2 https://stackoverflow.com/a/201378
+     *
+     * This pattern only matches lowercase input, so it's
+     * necessary to run the tested input through strtolower if
+     * we need to accept uppercase variants as well. This seems
+     * to be safer than modifying the pattern itself, which has a
+     * "works-if-not-touched" quality to it.
      */
     private const EMAIL_PATTERN = "/(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*|\"(?:[\x01-" .
     "\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*" .
@@ -47,7 +53,8 @@ class UserFormValidator
     private static function validateEmail(string $email): array
     {
         return array_merge(
-            preg_match(self::EMAIL_PATTERN, $email)
+            // Pattern only matches lowercase input, but we want to be case-insensitive
+            preg_match(self::EMAIL_PATTERN, strtolower($email))
                 ? []
                 : ["entered value is not a valid e-mail address"],
             self::standardValidations("an e-mail", $email)

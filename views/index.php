@@ -22,8 +22,7 @@
             <div class="col-lg pb-3 pe-3">
                 <div class="input-group has-validation" aria-label="E-mail field">
                     <label for="email" class="input-group-text fixed-form-label">E-mail</label>
-                    <!-- Kudos 2 https://stackoverflow.com/a/201378 -->
-                    <input name="email" class="form-control lowercase" type="email" id="email" aria-describedby="email-error" required maxlength="65535" pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\x22(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\x22)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"/>
+                    <input name="email" class="form-control" type="email" id="email" aria-describedby="email-error" required maxlength="65535"/>
                     <span id="email-error" class="invalid-feedback" aria-live="polite"></span>
                 </div>
             </div>
