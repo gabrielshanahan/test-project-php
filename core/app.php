@@ -58,6 +58,7 @@ class App
             "object-src 'none'; " .
             "base-uri 'none'"
         );
+        header_remove("X-Powered-By");
     }
 
     /**
