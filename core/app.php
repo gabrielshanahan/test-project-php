@@ -30,7 +30,6 @@ class App
     public const DB_TEXT_FIELD_LEN = 65535;
 
     private const SESSION_LIFETIME_SECONDS = 3600;
-    private const SESSION_COOKIE_DOMAIN = 'localhost';
     private const MAX_CSRF_TOKENS_COUNT = 100;
 
     public const DEFINED_CSRF_TOKENS_SESSION_KEY = 'csrf_tokens';
@@ -58,7 +57,7 @@ class App
         session_set_cookie_params([
             'lifetime' => self::SESSION_LIFETIME_SECONDS,
             'path' => '/',
-            'domain' => self::SESSION_COOKIE_DOMAIN,
+            'domain' => self::$config->cookieDomain,
             'secure' => true,
             'httponly' => true,
             'samesite' => 'Strict'

@@ -10,6 +10,7 @@ class Config {
     public string $captchaSecret;
     public bool $debug;
     public string $version;
+    public string $cookieDomain;
 
 	public function __construct() {
         foreach (glob(__DIR__ . '/../config/*.php') as $filename) {
