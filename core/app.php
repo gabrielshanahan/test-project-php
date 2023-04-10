@@ -30,6 +30,8 @@ class App
     public const DB_TEXT_FIELD_LEN = 65535;
 
     private const SESSION_LIFETIME_SECONDS = 3600;
+    private const SESSION_COOKIE_PATH = '/';
+    private const SESSION_COOKIE_SAMESITE = 'Strict';
     private const MAX_CSRF_TOKENS_COUNT = 100;
 
     public const DEFINED_CSRF_TOKENS_SESSION_KEY = 'csrf_tokens';
@@ -56,30 +58,44 @@ class App
     private function session() {
         session_set_cookie_params([
             'lifetime' => self::SESSION_LIFETIME_SECONDS,
-            'path' => '/',
+            'path' => self::SESSION_COOKIE_PATH,
             'domain' => self::$config->cookieDomain,
             'secure' => true,
             'httponly' => true,
-            'samesite' => 'Strict'
+            'samesite' => self::SESSION_COOKIE_SAMESITE
         ]);
 
         session_start();
         if (key_exists(session_name(), $_COOKIE)) {
             if(empty($_SESSION)) { // Expired session
-                setcookie(session_name(), '', time()-1, '/');
-                http_response_code(400);
-                $errorMsg = 'This window has stayed inactive for too long! Please refresh it and try again.';
+                setcookie(session_name(), '', [
+                    'expires' => time() - 1,
+                    'path' => self::SESSION_COOKIE_PATH,
+                    'domain' => self::$config->cookieDomain,
+                    'secure' => true,
+                    'httponly' => true,
+                    'samesite' => self::SESSION_COOKIE_SAMESITE
+                ]);
+
+                $message = 'This window has stayed inactive for too long! Please refresh it and try again.';
+
                 if (isset($_SERVER['HTTP_ACCEPT']) && str_contains($_SERVER['HTTP_ACCEPT'], 'application/json')) {
+                    $message .= " Be aware that, by refreshing, you will lose the data you just tried to create," .
+                        " and will have to enter it anew. " .
+                        "Data that was already saved (i.e. is visible in the table bellow) will not be affected.";
+
+                    self::respondAndExit(new BadRequest([Response::ERROR_KEY => $message]));
                     echo json_encode([
-                        'other' => $errorMsg .
+                        'other' => $message .
                             " Be aware that, by refreshing, you will lose the data you just tried to create, and will" .
                             " have to enter it anew. " .
                             "Data that was already saved (i.e. is visible in the table bellow) will not be affected."
                     ]);
                 } else {
-                    echo $errorMsg;
+                    http_response_code(400);
+                    echo $message;
+                    exit;
                 }
-                exit;
             }
         }
 
