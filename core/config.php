@@ -6,30 +6,20 @@
  */
 class Config {
 	
-	private $directory;
-	public $database;
-    public $captchaSecret;
-    public $debug;
-    public $version;
+	public array $database;
+    public string $captchaSecret;
+    public bool $debug;
+    public string $version;
 
 	public function __construct() {
-		// Save current directory path
-		$this->directory = dirname(__FILE__);
-		
-		// Read user's database config
-		require $this->directory .'/../config/database.php';
-		$this->database = $database;
+        foreach (glob(__DIR__ . '/../config/*.php') as $filename) {
+            require $filename;
+        }
 
-        require $this->directory .'/../config/captcha.php';
-        $this->captchaSecret = $captchaSecret;
-
-        require $this->directory .'/../config/debug.php';
-        $this->debug = $debug ?? false;
-
-        require $this->directory .'/../config/version.php';
-        $this->version = $version ?? false;
+        foreach (array_keys(get_class_vars(Config::class)) as $property) {
+            $this->$property = $$property;
+        }
 	}
-	
 }
 
 return new Config();
