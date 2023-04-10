@@ -10,6 +10,7 @@ class Config {
 	public $database;
     public $captchaSecret;
     public $debug;
+    public $version;
 
 	public function __construct() {
 		// Save current directory path
@@ -24,6 +25,9 @@ class Config {
 
         require $this->directory .'/../config/debug.php';
         $this->debug = $debug ?? false;
+
+        require $this->directory .'/../config/version.php';
+        $this->version = $version ?? false;
 	}
 	
 }
