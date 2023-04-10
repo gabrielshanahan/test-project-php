@@ -4,8 +4,8 @@
     <h2>Add a new user</h2>
     <div id="unknown-errors" class="hidden" aria-label="Unknown errors">
         <div class="alert alert-danger show" role="alert">
-            <h4 class="alert-heading">An unknown error occurred!</h4>
-            A technical description of the error can be found bellow.
+            <h4 class="alert-heading">An error occurred!</h4>
+            A description of the error can be found bellow, although it might contain technical information that doesn't make much sense.
             <hr>
             <p id="unknown-error-description" class="mb-0" aria-label="Technical description of error"></p>
         </div>
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <input type="hidden" name="csrf-token" id="csrf-token" aria-hidden="true" value="<?=$_SESSION['csrf_tokens'][count($_SESSION['csrf_tokens']) - 1]?>">
+        <input type="hidden" name="csrf-token" id="csrf-token" aria-hidden="true" value="<?=$_SESSION[App::DEFINED_CSRF_TOKENS_SESSION_KEY][count($_SESSION[App::DEFINED_CSRF_TOKENS_SESSION_KEY]) - 1]?>">
         <button class="btn btn-primary float-lg-end" type="submit">Create new row</button>
     </form>
 </div>

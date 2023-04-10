@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . "/../core/form/Validated.php";
+
 class UserFormValidator
 {
 
@@ -40,45 +42,61 @@ class UserFormValidator
         ]);
     }
 
-    private static function validateName(string $name): array
+    private static function validateName(string $name): Validated
     {
-        return array_merge(
+        $errorMessages = array_merge(
             preg_match(self::NAME_PATTERN, $name)
                 ? []
                 : ["name cannot start with a number"],
             self::standardValidations("a name", $name)
         );
+
+        return count($errorMessages)
+            ? Validated::invalid($errorMessages)
+            : Validated::valid($name);
     }
 
-    private static function validateEmail(string $email): array
+    private static function validateEmail(string $email): Validated
     {
-        return array_merge(
+        $errorMessages = array_merge(
             // Pattern only matches lowercase input, but we want to be case-insensitive
             preg_match(self::EMAIL_PATTERN, strtolower($email))
                 ? []
                 : ["entered value is not a valid e-mail address"],
             self::standardValidations("an e-mail", $email)
         );
+
+        return count($errorMessages)
+            ? Validated::invalid($errorMessages)
+            : Validated::valid($email);
     }
 
-    private static function validateCity(string $city): array
+    private static function validateCity(string $city): Validated
     {
-        return array_merge(
+        $errorMessages = array_merge(
             preg_match(self::CITY_PATTERN, $city)
                 ? []
                 : ["entered value is not a valid city. Be sure to enter the latinized version of the name"],
             self::standardValidations("a city", $city)
         );
+
+        return count($errorMessages)
+            ? Validated::invalid($errorMessages)
+            : Validated::valid($city);
     }
 
-    private static function validatePhone(string $phone): array
+    private static function validatePhone(string $phone): Validated
     {
-        return array_merge(
+        $errorMessages = array_merge(
             preg_match(self::PHONE_PATTERN, $phone)
                 ? []
                 : ["entered value is not a valid phone number"],
             self::standardValidations("a phone number", $phone)
         );
+
+        return count($errorMessages)
+            ? Validated::invalid($errorMessages)
+            : Validated::valid($phone);
     }
 
     private static function standardValidations($subject, $str): array {

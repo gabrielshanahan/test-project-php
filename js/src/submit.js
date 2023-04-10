@@ -30,7 +30,7 @@ jqueryForm.submit(async (event) => {
             email: emailInput.value,
             city: cityInput.value,
             phone: phoneInput.value,
-            csrf_token: csrfTokenInput.value,
+            csrfToken: csrfTokenInput.value,
             // eslint-disable-next-line no-undef
             captchaToken: await grecaptcha.execute(
                 "6Lcf01ElAAAAAAD2SziA020840uSyVwgxzZyiss8", {
@@ -50,10 +50,10 @@ jqueryForm.submit(async (event) => {
         );
 
         try {
+            const json = await response.json();
             if(response.status === 201) {
                 window.location.href = "/"
             } else if(response.status === 400) {
-                const json = await response.json();
                 if("name" in json) {
                     nameValidator.renderErrors(json.name);
                 }
@@ -70,15 +70,17 @@ jqueryForm.submit(async (event) => {
                     phoneValidator.renderErrors(json.phone);
                 }
 
-                if("other" in json) {
-                    unknownErrorDescription.textContent = json.other;
+                if("error" in json) {
+                    unknownErrorDescription.textContent = json.error;
                     unknownErrors.classList.remove("hidden");
                 }
             } else if(response.status === 500) {
-                unknownErrorDescription.textContent = await response.text();
+                unknownErrorDescription.textContent = json.error;
                 unknownErrors.classList.remove("hidden");
             } else {
-                unknownErrorDescription.textContent = `Unexpected status ${response.status}`;
+                unknownErrorDescription.textContent = `
+                Unexpected status ${response.status}. Response body: ${await response.text()}
+                `;
                 unknownErrors.classList.remove("hidden");
             }
         } catch (e) {

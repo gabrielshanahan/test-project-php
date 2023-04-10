@@ -1,10 +1,17 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('log_errors', 1);
+ini_set('error_log', 'php://stderr');
+
 // Load BaseModel and all models from models directory
 require dirname(__FILE__).'/base_model.php';
 foreach (glob(dirname(__FILE__).'/../models/*.php') as $filename) {
     require $filename;
 }
+
+require_once __DIR__ . "/form/FormHandler.php";
+require_once __DIR__ . "/form/Response.php";
 
 /**
  * App
@@ -14,7 +21,11 @@ class App
 {
     private $directory;
     public $db;
-    public $config;
+
+    /**
+     * @var Config
+     */
+    public static Config $config;
 
     public const DB_TEXT_FIELD_LEN = 65535;
 
@@ -22,17 +33,16 @@ class App
     private const SESSION_COOKIE_DOMAIN = 'localhost';
     private const MAX_CSRF_TOKENS_COUNT = 100;
 
+    public const DEFINED_CSRF_TOKENS_SESSION_KEY = 'csrf_tokens';
+
     public function __construct()
     {
         // Save current directory path
         $this->directory = dirname(__FILE__);
 
-        // Load configuration options
-        $this->config = require $this->directory.'/config.php';
-
         // Load database instance and tell it to connect with given config
         $this->db = require $this->directory.'/database.php';
-        $this->db->connect($this->config->database);
+        $this->db->connect(self::$config->database);
 
         $this->init();
         $this->session();
@@ -76,11 +86,11 @@ class App
 
         session_regenerate_id();
         $_SESSION['nonce'] = base64_encode(random_bytes(16));
-        $_SESSION['csrf_tokens'][] = bin2hex(random_bytes(32));
-        if($_SESSION['csrf_tokens'] > self::MAX_CSRF_TOKENS_COUNT) {
-            $_SESSION['csrf_tokens'] = array_slice(
-                $_SESSION['csrf_tokens'],
-                count($_SESSION['csrf_tokens']) - self::MAX_CSRF_TOKENS_COUNT
+        $_SESSION[self::DEFINED_CSRF_TOKENS_SESSION_KEY][] = bin2hex(random_bytes(32));
+        if($_SESSION[self::DEFINED_CSRF_TOKENS_SESSION_KEY] > self::MAX_CSRF_TOKENS_COUNT) {
+            $_SESSION[self::DEFINED_CSRF_TOKENS_SESSION_KEY] = array_slice(
+                $_SESSION[self::DEFINED_CSRF_TOKENS_SESSION_KEY],
+                count($_SESSION[self::DEFINED_CSRF_TOKENS_SESSION_KEY]) - self::MAX_CSRF_TOKENS_COUNT
             );
         }
     }
@@ -103,6 +113,33 @@ class App
         header_remove("X-Powered-By");
     }
 
+    public function getDefinedCSRFTokens(): array
+    {
+        return $_SESSION[self::DEFINED_CSRF_TOKENS_SESSION_KEY] ?? [];
+    }
+
+    public function getRemoteIp(): ?string {
+        return $_SERVER['REMOTE_ADDR'] ?? null;
+    }
+
+    public function handleFormAndExit($formHandlerClass, $formData) {
+        /** @var FormHandler $handler */
+        $handler = new $formHandlerClass($this);
+
+        self::respondAndExit($handler->doHandle($formData));
+    }
+
+    private static function respondAndExit(Response $response) {
+        header('Content-Type: application/json');
+        http_response_code($response->getStatus());
+        echo json_encode($response->getBody());
+        exit;
+    }
+
+    public static function exceptionHandler($exception)
+    {
+        self::respondAndExit(new UncaughtException($exception, self::$config->debug));
+    }
 
     /**
      * Renders given view with given set of variables
@@ -127,12 +164,8 @@ class App
         // Render $content in layout
         include './views/layout.php';
     }
-
-    public static function exceptionHandler($exception)
-    {
-        http_response_code(500);
-        echo "Uncaught exception of type '" . get_class($exception) . "'";
-    }
 }
+
+App::$config = require __DIR__ . '/config.php';
 
 return new App();
